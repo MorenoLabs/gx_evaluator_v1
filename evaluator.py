@@ -303,11 +303,11 @@ else:
 
     # Function to generate score color class
     def get_score_class(score):
-        if score >= 80:
+        if score in ['A+', 'A', 'A-']:
             return "high-score"
-        elif score >= 70:
+        elif score in ['B+', 'B', 'B-', 'C+']:
             return "medium-score"
-        else:
+        else:  # C, C-, D+, D, D-, F
             return "low-score"
         
     def get_ticket_solved_class(status):

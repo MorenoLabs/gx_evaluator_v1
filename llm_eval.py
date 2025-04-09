@@ -47,8 +47,8 @@ def evaluate_ticket():
                             "description": "The title of the evaluation report as a single line summary of the guest intent. This should be a concise and informative title that captures the essence of the guest intent(s) in particular if our bot Emma has properly understood the specifics and nuances of the guest request / message.. Do only consider the guest intents and not the entire ticket event log. Use a emoji in the title to make it more engaging. The emoji should be relevant to the guest intent and add a touch of personality to the report."
                         },
                         "overall_score": {
-                            "type": "integer",
-                            "description": "Overall evaluation score from 0-100, be critical."
+                            "type": "string",
+                            "description": "Overall evaluation grade from A+ to F, where A+ is exceptional and F is failing. Be critical in your assessment."
                         },
                         "bot_evaluation": {
                             "type": "string",
