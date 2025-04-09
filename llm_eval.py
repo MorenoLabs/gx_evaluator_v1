@@ -24,7 +24,7 @@ def evaluate_ticket():
         prompt = file.read()
 
     response = client.responses.create(
-        model="gpt-4o",
+        model="gpt-4o-mini",
         temperature=0,
         input=[
             {"role": "system", "content": "You are an expert guest service desk ticket evaluator. Analyze the provided ticket event log and generate a comprehensive evaluation according to the specified schema."},
