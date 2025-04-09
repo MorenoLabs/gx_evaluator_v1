@@ -406,7 +406,7 @@ else:
                 
                 # Display the overall score in a colored box
                 score_class = get_score_class(evaluation_data["overall_score"])
-                st.markdown(f'<div class="score-box {score_class}">Overall Score: {evaluation_data["overall_score"]}%</div>', unsafe_allow_html=True)
+                st.markdown(f'<div class="score-box {score_class}">Overall Score: {evaluation_data["overall_score"]}</div>', unsafe_allow_html=True)
                 
                 #Display the ticket status in a colored box
                 # status_class = get_ticket_solved_class(evaluation_data["was_issue_resolved"])
