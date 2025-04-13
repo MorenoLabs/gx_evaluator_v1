@@ -258,6 +258,61 @@ def extract_messages(events: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
     return message_events
 
 
+def calculate_agent_response_metrics(events: List[Dict[str, Any]], conversation_created_at: float) -> Dict[str, Any]:
+    """Calculate detailed agent response time metrics from events timeline."""
+    metrics = {
+        'first_response_time': None,
+        'first_response_time_formatted': None,
+        'avg_response_time': None,
+        'avg_response_time_formatted': None,
+        'response_times': [],
+        'response_intervals': [],  # Store all intervals between guest messages and agent responses
+        'breached_responses': [],  # Track responses that breached SLA
+        'total_agent_responses': 0,
+        'last_guest_message_time': None
+    }
+
+    # Sort events chronologically
+    sorted_events = sorted(events, key=lambda e: e['emitted_at'])
+    
+    for event in sorted_events:
+        if event['type'] == 'inbound' and not is_bot_message(event['target']['data']):
+            # Track guest message time for calculating response interval
+            metrics['last_guest_message_time'] = event['emitted_at']
+            
+        elif event['type'] == 'out_reply' and not is_bot_message(event['target']['data']):
+            metrics['total_agent_responses'] += 1
+            current_time = event['emitted_at']
+            
+            # Calculate first response time from ticket creation
+            if metrics['first_response_time'] is None:
+                metrics['first_response_time'] = current_time - conversation_created_at
+                metrics['first_response_time_formatted'] = calculate_time_difference(
+                    conversation_created_at, current_time
+                )
+            
+            # Calculate response interval if there was a preceding guest message
+            if metrics['last_guest_message_time']:
+                interval = current_time - metrics['last_guest_message_time']
+                metrics['response_intervals'].append(interval)
+                
+                # Check if this response breached SLA (15 minutes)
+                if interval > 900:  # 15 minutes in seconds
+                    metrics['breached_responses'].append({
+                        'response_time': interval,
+                        'formatted_time': calculate_time_difference(metrics['last_guest_message_time'], current_time)
+                    })
+                
+                metrics['last_guest_message_time'] = None  # Reset for next interaction
+    
+    # Calculate average response time
+    if metrics['response_intervals']:
+        metrics['avg_response_time'] = sum(metrics['response_intervals']) / len(metrics['response_intervals'])
+        metrics['avg_response_time_formatted'] = calculate_time_difference(0, metrics['avg_response_time'])
+    
+    return metrics
+
+
 def events_to_markdown(events: List[Dict[str, Any]]) -> str:
     """Convert Front event log to markdown format for LLM context."""
     if not events:
@@ -272,6 +327,9 @@ def events_to_markdown(events: List[Dict[str, Any]]) -> str:
     resolution_info = find_resolution_info(events, conversation.get("created_at", 0))
     routing_info = extract_routing_info(events)
     messages = extract_messages(events)
+    
+    # Calculate detailed agent response metrics
+    agent_metrics = calculate_agent_response_metrics(events, conversation.get("created_at", 0))
     
     # Start building the markdown
     markdown = f"# Conversation: {conversation_metadata['subject']}\n\n"
@@ -306,9 +364,18 @@ def events_to_markdown(events: List[Dict[str, Any]]) -> str:
     # Handling Information Section
     markdown += "## Conversation Processing\n\n"
     
-    if resolution_info.get("first_response_time"):
-        markdown += f"- **First Response Time**: {resolution_info['first_response_time']}\n"
+    if agent_metrics['first_response_time_formatted']:
+        markdown += f"- **First Response Time**: {agent_metrics['first_response_time_formatted']}\n"
     
+    if agent_metrics['avg_response_time_formatted']:
+        markdown += f"- **Average Response Time**: {agent_metrics['avg_response_time_formatted']}\n"
+    
+    if agent_metrics['breached_responses']:
+        markdown += "- **SLA Breached Responses**:\n"
+        for breach in agent_metrics['breached_responses']:
+            markdown += f"  - Response delayed by {breach['formatted_time']}\n"
+    
+    markdown += f"- **Total Agent Responses**: {agent_metrics['total_agent_responses']}\n"
     markdown += f"- **Total Resolution Time**: {resolution_info['resolution_time']}\n"
     
     if routing_info.get("routing_path"):
@@ -335,6 +402,9 @@ def events_to_markdown(events: List[Dict[str, Any]]) -> str:
     for msg in messages:
         markdown += f"### {msg['formatted_time']} - {msg['sender_name']} ({msg['sender_type']})\n\n"
         markdown += f"{msg['content']}\n\n"
+    
+    with open("ticket_summaryv2", "w") as file:
+        file.write(markdown)
     
     return markdown
 

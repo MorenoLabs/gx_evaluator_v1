@@ -26,7 +26,7 @@ def evaluate_ticket(summary):
         prompt = file.read()
 
     response = client.responses.create(
-        model="gpt-4o",
+        model="gpt-4.5-preview-2025-02-27",
         temperature=0.7,
         input=[
             {"role": "system", "content": "You are an expert guest service desk ticket evaluator. Analyze the provided ticket event log and generate a comprehensive evaluation according to the specified schema."},
@@ -53,7 +53,8 @@ def evaluate_ticket(summary):
                         },
                         "overall_score": {
                             "type": "string",
-                            "description": "Overall evaluation grade from A+ to F, where A+ is exceptional and F is failing. Be critical in your assessment."
+                            "enum": ["Exceptional", "Good", "Satisfactory", "Needs Improvement", "Poor"],
+                            "description": "Overall evaluation using 5-tier system where Exceptional is the highest and Poor is the lowest. Be critical in your assessment."
                         },
                         "bot_evaluation": {
                             "type": "string",
@@ -66,7 +67,7 @@ def evaluate_ticket(summary):
                         },
                         "executive_summary": {
                             "type": "string",
-                            "description": "A critical detailed concise summary of the overall ticket evaluation, highlighting key weaknesses and strengths providing a a clear overview of the guest experience."
+                            "description": "A comprehensive analysis of the ticket that must include: \n1. Initial context (ticket type, core issue)\n2. Key performance metrics (response times, SLA status, handle time)\n3. Bot performance highlights with specific examples\n4. Agent performance analysis with conversation excerpts\n5. Critical decision points and their impact\n6. Resolution journey and outcome effectiveness\n7. Guest experience impact (frustration points, satisfaction elements)\n8. Most significant process gaps or exemplary handling\n9. Quantifiable impact (time lost, guest satisfaction affected)\n10. Primary improvement opportunities\nUse specific examples and quotes from the conversation to support key points. Maintain a critical and objective tone."
                         },
                         "guest_intent": {
                             "type": "string",
@@ -116,8 +117,8 @@ def evaluate_ticket(summary):
                                 "response_time": {
                                     "type": "object",
                                     "properties": {
-                                        "score": {"type": "string", "enum": ["A+", "A", "A-", "B+", "B", "B-", "C+", "C", "C-", "D+", "D", "D-", "F"], "description": "consider response time from guest perspective"},
-                                        "max": {"type": "string", "enum": ["A+"], "description": "maximum possible grade"}
+                                        "score": {"type": "string", "enum": ["Exceptional", "Good", "Satisfactory", "Needs Improvement", "Poor"], "description": "Agent Performance: Score for response time from guest perspective"},
+                                        "max": {"type": "string", "enum": ["Exceptional"], "description": "maximum possible score"}
                                     },
                                     "required": ["score", "max"],
                                     "additionalProperties": False
@@ -125,26 +126,8 @@ def evaluate_ticket(summary):
                                 "communication_quality": {
                                     "type": "object",
                                     "properties": {
-                                        "score": {"type": "string", "enum": ["A+", "A", "A-", "B+", "B", "B-", "C+", "C", "C-", "D+", "D", "D-", "F"]},
-                                        "max": {"type": "string", "enum": ["A+"], "description": "maximum possible grade"}
-                                    },
-                                    "required": ["score", "max"],
-                                    "additionalProperties": False
-                                },
-                                "issue_resolution": {
-                                    "type": "object",
-                                    "properties": {
-                                        "score": {"type": "string", "enum": ["A+", "A", "A-", "B+", "B", "B-", "C+", "C", "C-", "D+", "D", "D-", "F"]},
-                                        "max": {"type": "string", "enum": ["A+"], "description": "maximum possible grade"}
-                                    },
-                                    "required": ["score", "max"],
-                                    "additionalProperties": False
-                                },
-                                "guest_experience": {
-                                    "type": "object",
-                                    "properties": {
-                                        "score": {"type": "string", "enum": ["A+", "A", "A-", "B+", "B", "B-", "C+", "C", "C-", "D+", "D", "D-", "F"]},
-                                        "max": {"type": "string", "enum": ["A+"], "description": "maximum possible grade"}
+                                        "score": {"type": "string", "enum": ["Exceptional", "Good", "Satisfactory", "Needs Improvement", "Poor"], "description": "Agent Performance: Score for clarity, professionalism and effectiveness of human agent communication"},
+                                        "max": {"type": "string", "enum": ["Exceptional"], "description": "maximum possible score"}
                                     },
                                     "required": ["score", "max"],
                                     "additionalProperties": False
@@ -152,8 +135,26 @@ def evaluate_ticket(summary):
                                 "process_adherence": {
                                     "type": "object",
                                     "properties": {
-                                        "score": {"type": "string", "enum": ["A+", "A", "A-", "B+", "B", "B-", "C+", "C", "C-", "D+", "D", "D-", "F"]},
-                                        "max": {"type": "string", "enum": ["A+"], "description": "maximum possible grade"}
+                                        "score": {"type": "string", "enum": ["Exceptional", "Good", "Satisfactory", "Needs Improvement", "Poor"], "description": "Agent Performance: Score for following established protocols and procedures by human agents"},
+                                        "max": {"type": "string", "enum": ["Exceptional"], "description": "maximum possible score"}
+                                    },
+                                    "required": ["score", "max"],
+                                    "additionalProperties": False
+                                },
+                                "issue_resolution": {
+                                    "type": "object",
+                                    "properties": {
+                                        "score": {"type": "string", "enum": ["Exceptional", "Good", "Satisfactory", "Needs Improvement", "Poor"], "description": "Guest Experience: Score for how effectively the issue was resolved"},
+                                        "max": {"type": "string", "enum": ["Exceptional"], "description": "maximum possible score"}
+                                    },
+                                    "required": ["score", "max"],
+                                    "additionalProperties": False
+                                },
+                                "guest_experience": {
+                                    "type": "object",
+                                    "properties": {
+                                        "score": {"type": "string", "enum": ["Exceptional", "Good", "Satisfactory", "Needs Improvement", "Poor"], "description": "Guest Experience: Overall score for the guest's journey and satisfaction"},
+                                        "max": {"type": "string", "enum": ["Exceptional"], "description": "maximum possible score"}
                                     },
                                     "required": ["score", "max"],
                                     "additionalProperties": False
