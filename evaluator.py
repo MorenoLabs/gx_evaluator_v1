@@ -492,318 +492,96 @@ else:
                 st.write(evaluation_data["ticket_overview"]["resolution_status"])
             
             with tab2:
+                # Agent Performance Section
                 st.markdown('<div class="section-header">Agent Performance</div>', unsafe_allow_html=True)
                 
-                # Response Time Score - using nested columns
-                st.markdown('<div class="score-container">', unsafe_allow_html=True)
-                score_col, details_col = st.columns([1, 3])
-                
-                with score_col:
-                    score = evaluation_data["category_scores"]["response_time"]["score"]
-                    score_class = get_score_class(score)
-                    st.markdown(f'<div class="score-box {score_class}">{score}</div>', unsafe_allow_html=True)
-                    st.markdown('<div style="text-align: center;">Response Time</div>', unsafe_allow_html=True)
-                
-                with details_col:
-                    if score == "Exceptional":
-                        st.markdown('<div class="score-details"><strong>Response Speed:</strong> Immediate response</div>', unsafe_allow_html=True)
-                        st.markdown('<div class="metric-evidence">• First response within 15 minutes</div>', unsafe_allow_html=True)
-                        st.markdown('<div class="metric-impact">• Demonstrates excellent urgency</div>', unsafe_allow_html=True)
-                    elif score == "Good":
-                        st.markdown('<div class="score-details"><strong>Response Speed:</strong> Quick response</div>', unsafe_allow_html=True)
-                        st.markdown('<div class="metric-evidence">• First response within 30 minutes</div>', unsafe_allow_html=True)
-                        st.markdown('<div class="metric-impact">• Good balance of speed and quality</div>', unsafe_allow_html=True)
-                    elif score == "Satisfactory":
-                        st.markdown('<div class="score-details"><strong>Response Speed:</strong> Standard response</div>', unsafe_allow_html=True)
-                        st.markdown('<div class="metric-evidence">• First response within 1 hour</div>', unsafe_allow_html=True)
-                        st.markdown('<div class="metric-impact">• Met minimum requirements</div>', unsafe_allow_html=True)
-                    elif score == "Needs Improvement":
-                        st.markdown('<div class="score-details"><strong>Response Speed:</strong> Delayed response</div>', unsafe_allow_html=True)
-                        st.markdown('<div class="metric-evidence">• First response within 4 hours</div>', unsafe_allow_html=True)
-                        st.markdown('<div class="metric-impact">• Impacted guest satisfaction</div>', unsafe_allow_html=True)
-                    else:
-                        st.markdown('<div class="score-details"><strong>Response Speed:</strong> Severe delay</div>', unsafe_allow_html=True)
-                        st.markdown('<div class="metric-evidence">• First response over 4 hours</div>', unsafe_allow_html=True)
-                        st.markdown('<div class="metric-impact">• Critical failure in response time</div>', unsafe_allow_html=True)
-                st.markdown('</div>', unsafe_allow_html=True)
+                metrics = [
+                    ("response_time", "Response Time", {
+                        "Exceptional": ("Immediate response", "First response within 15 minutes", "Demonstrates excellent urgency"),
+                        "Good": ("Quick response", "First response within 30 minutes", "Good balance of speed and quality"),
+                        "Satisfactory": ("Standard response", "First response within 1 hour", "Met minimum requirements"),
+                        "Needs Improvement": ("Delayed response", "First response within 4 hours", "Impacted guest satisfaction"),
+                        "Poor": ("Severe delay", "First response over 4 hours", "Critical failure in response time")
+                    }),
+                    ("communication_quality", "Communication", {
+                        "Exceptional": ("Outstanding clarity", "Highly empathetic and professional", "Superior guest experience"),
+                        "Good": ("Clear and professional", "Well-structured with good personalization", "Effective communication style"),
+                        "Satisfactory": ("Clear but generic", "Professional but lacks personalization", "Basic communication needs met"),
+                        "Needs Improvement": ("Communication issues", "Generic responses lacking clarity", "May cause guest confusion"),
+                        "Poor": ("Poor communication", "Unclear or inappropriate", "Severely impacts understanding")
+                    }),
+                    ("process_adherence", "Process Adherence", {
+                        "Exceptional": ("Perfect protocol adherence", "Exemplary documentation and process following", "Sets standard for excellence"),
+                        "Good": ("Strong protocol adherence", "Good documentation with minor gaps", "Processes followed effectively"),
+                        "Satisfactory": ("Basic protocol adherence", "Key processes followed with gaps", "Room for improvement"),
+                        "Needs Improvement": ("Process gaps present", "Multiple procedural steps missed", "Inconsistent adherence"),
+                        "Poor": ("Major process failures", "Critical procedures ignored", "Severe operational deficiencies")
+                    })
+                ]
 
-                # Communication Quality Score
-                st.markdown('<div class="score-container">', unsafe_allow_html=True)
-                score_col, details_col = st.columns([1, 3])
-                
-                with score_col:
-                    score = evaluation_data["category_scores"]["communication_quality"]["score"]
-                    score_class = get_score_class(score)
-                    st.markdown(f'<div class="score-box {score_class}">{score}</div>', unsafe_allow_html=True)
-                    st.markdown('<div style="text-align: center;">Communication</div>', unsafe_allow_html=True)
-                
-                with details_col:
-                    if score == "Exceptional":
-                        st.markdown('<div class="score-details"><strong>Communication Quality:</strong> Outstanding clarity</div>', unsafe_allow_html=True)
-                        st.markdown('<div class="metric-evidence">• Highly empathetic and professional</div>', unsafe_allow_html=True)
-                        st.markdown('<div class="metric-impact">• Superior guest experience</div>', unsafe_allow_html=True)
-                    elif score == "Good":
-                        st.markdown('<div class="score-details"><strong>Communication Quality:</strong> Clear and professional</div>', unsafe_allow_html=True)
-                        st.markdown('<div class="metric-evidence">• Well-structured with good personalization</div>', unsafe_allow_html=True)
-                        st.markdown('<div class="metric-impact">• Effective communication style</div>', unsafe_allow_html=True)
-                    elif score == "Satisfactory":
-                        st.markdown('<div class="score-details"><strong>Communication Quality:</strong> Clear but generic</div>', unsafe_allow_html=True)
-                        st.markdown('<div class="metric-evidence">• Professional but lacks personalization</div>', unsafe_allow_html=True)
-                        st.markdown('<div class="metric-impact">• Basic communication needs met</div>', unsafe_allow_html=True)
-                    elif score == "Needs Improvement":
-                        st.markdown('<div class="score-details"><strong>Communication Quality:</strong> Communication issues</div>', unsafe_allow_html=True)
-                        st.markdown('<div class="metric-evidence">• Generic responses lacking clarity</div>', unsafe_allow_html=True)
-                        st.markdown('<div class="metric-impact">• May cause guest confusion</div>', unsafe_allow_html=True)
-                    else:
-                        st.markdown('<div class="score-details"><strong>Communication Quality:</strong> Poor communication</div>', unsafe_allow_html=True)
-                        st.markdown('<div class="metric-evidence">• Unclear or inappropriate</div>', unsafe_allow_html=True)
-                        st.markdown('<div class="metric-impact">• Severely impacts understanding</div>', unsafe_allow_html=True)
-                st.markdown('</div>', unsafe_allow_html=True)
+                # Display Agent Performance metrics
+                for metric_key, metric_name, descriptions in metrics:
+                    st.markdown('<div class="score-container">', unsafe_allow_html=True)
+                    score_col, details_col = st.columns([1, 3])
+                    
+                    with score_col:
+                        score = evaluation_data["category_scores"][metric_key]["score"]
+                        score_class = get_score_class(score)
+                        st.markdown(f'<div class="score-box {score_class}">{score}</div>', unsafe_allow_html=True)
+                        st.markdown(f'<div style="text-align: center;">{metric_name}</div>', unsafe_allow_html=True)
+                    
+                    with details_col:
+                        title, evidence, impact = descriptions[score]
+                        st.markdown(f'<div class="score-details"><strong>{metric_name}:</strong> {title}</div>', unsafe_allow_html=True)
+                        st.markdown(f'<div class="metric-evidence">• {evidence}</div>', unsafe_allow_html=True)
+                        st.markdown(f'<div class="metric-impact">• {impact}</div>', unsafe_allow_html=True)
+                    st.markdown('</div>', unsafe_allow_html=True)
 
+                # Guest Experience Section
                 st.markdown('<div class="section-header">Guest Experience</div>', unsafe_allow_html=True)
                 
-                # Issue Resolution Score
-                st.markdown('<div class="score-container">', unsafe_allow_html=True)
-                score_col, details_col = st.columns([1, 3])
-                
-                with score_col:
-                    score = evaluation_data["category_scores"]["issue_resolution"]["score"]
-                    score_class = get_score_class(score)
-                    st.markdown(f'<div class="score-box {score_class}">{score}</div>', unsafe_allow_html=True)
-                    st.markdown('<div style="text-align: center;">Issue Resolution</div>', unsafe_allow_html=True)
-                
-                with details_col:
-                    if score == "Exceptional":
-                        st.markdown('<div class="score-details"><strong>Resolution Quality:</strong> Outstanding resolution</div>', unsafe_allow_html=True)
-                        st.markdown('<div class="metric-evidence">• Complete resolution with added value</div>', unsafe_allow_html=True)
-                        st.markdown('<div class="metric-impact">• Exceeded expectations</div>', unsafe_allow_html=True)
-                    elif score == "Good":
-                        st.markdown('<div class="score-details"><strong>Resolution Quality:</strong> Effective resolution</div>', unsafe_allow_html=True)
-                        st.markdown('<div class="metric-evidence">• Clear solution provided</div>', unsafe_allow_html=True)
-                        st.markdown('<div class="metric-impact">• Guest needs addressed</div>', unsafe_allow_html=True)
-                    elif score == "Satisfactory":
-                        st.markdown('<div class="score-details"><strong>Resolution Quality:</strong> Basic resolution</div>', unsafe_allow_html=True)
-                        st.markdown('<div class="metric-evidence">• Main issues addressed</div>', unsafe_allow_html=True)
-                        st.markdown('<div class="metric-impact">• Minimum standards met</div>', unsafe_allow_html=True)
-                    elif score == "Needs Improvement":
-                        st.markdown('<div class="score-details"><strong>Resolution Quality:</strong> Incomplete resolution</div>', unsafe_allow_html=True)
-                        st.markdown('<div class="metric-evidence">• Significant gaps present</div>', unsafe_allow_html=True)
-                        st.markdown('<div class="metric-impact">• Guest needs partially unmet</div>', unsafe_allow_html=True)
-                    else:
-                        st.markdown('<div class="score-details"><strong>Resolution Quality:</strong> Failed resolution</div>', unsafe_allow_html=True)
-                        st.markdown('<div class="metric-evidence">• Issue remains unresolved</div>', unsafe_allow_html=True)
-                        st.markdown('<div class="metric-impact">• Critical service failure</div>', unsafe_allow_html=True)
-                st.markdown('</div>', unsafe_allow_html=True)
+                guest_metrics = [
+                    ("issue_resolution", "Issue Resolution", {
+                        "Exceptional": ("Outstanding resolution", "Complete resolution with added value", "Exceeded expectations"),
+                        "Good": ("Effective resolution", "Clear solution provided", "Guest needs addressed"),
+                        "Satisfactory": ("Basic resolution", "Main issues addressed", "Minimum standards met"),
+                        "Needs Improvement": ("Incomplete resolution", "Significant gaps present", "Guest needs partially unmet"),
+                        "Poor": ("Failed resolution", "Issue remains unresolved", "Critical service failure")
+                    }),
+                    ("guest_experience", "Guest Experience", {
+                        "Exceptional": ("Outstanding experience", "Guest likely delighted and impressed", "Created memorable experience"),
+                        "Good": ("Positive experience", "Guest likely satisfied with interaction", "Met expectations well"),
+                        "Satisfactory": ("Adequate experience", "Basic needs met with average effort", "Room for enhancement"),
+                        "Needs Improvement": ("Subpar experience", "Signs of guest frustration present", "Failed to meet expectations"),
+                        "Poor": ("Poor experience", "Clear guest dissatisfaction", "Significant negative experience")
+                    })
+                ]
 
-                # Process Adherence Score
-                st.markdown('<div class="score-container">', unsafe_allow_html=True)
-                score_col, details_col = st.columns([1, 3])
-                
-                with score_col:
-                    score = evaluation_data["category_scores"]["process_adherence"]["score"]
-                    score_class = get_score_class(score)
-                    st.markdown(f'<div class="score-box {score_class}">{score}</div>', unsafe_allow_html=True)
-                    st.markdown('<div style="text-align: center;">Process Adherence</div>', unsafe_allow_html=True)
-                
-                with details_col:
-                    if score == "Exceptional":
-                        st.markdown('<div class="score-details"><strong>Process Quality:</strong> Perfect protocol adherence</div>', unsafe_allow_html=True)
-                        st.markdown('<div class="metric-evidence">• Exemplary documentation and process following</div>', unsafe_allow_html=True)
-                        st.markdown('<div class="metric-impact">• Sets standard for operational excellence</div>', unsafe_allow_html=True)
-                    elif score == "Good":
-                        st.markdown('<div class="score-details"><strong>Process Quality:</strong> Strong protocol adherence</div>', unsafe_allow_html=True)
-                        st.markdown('<div class="metric-evidence">• Good documentation with minor gaps</div>', unsafe_allow_html=True)
-                        st.markdown('<div class="metric-impact">• Processes followed effectively</div>', unsafe_allow_html=True)
-                    elif score == "Satisfactory":
-                        st.markdown('<div class="score-details"><strong>Process Quality:</strong> Basic protocol adherence</div>', unsafe_allow_html=True)
-                        st.markdown('<div class="metric-evidence">• Key processes followed with some gaps</div>', unsafe_allow_html=True)
-                        st.markdown('<div class="metric-impact">• Room for process improvement</div>', unsafe_allow_html=True)
-                    elif score == "Needs Improvement":
-                        st.markdown('<div class="score-details"><strong>Process Quality:</strong> Process gaps present</div>', unsafe_allow_html=True)
-                        st.markdown('<div class="metric-evidence">• Multiple procedural steps missed</div>', unsafe_allow_html=True)
-                        st.markdown('<div class="metric-impact">• Inconsistent protocol adherence</div>', unsafe_allow_html=True)
-                    else:
-                        st.markdown('<div class="score-details"><strong>Process Quality:</strong> Major process failures</div>', unsafe_allow_html=True)
-                        st.markdown('<div class="metric-evidence">• Critical procedures ignored</div>', unsafe_allow_html=True)
-                        st.markdown('<div class="metric-impact">• Severe operational deficiencies</div>', unsafe_allow_html=True)
-                st.markdown('</div>', unsafe_allow_html=True)
+                # Display Guest Experience metrics
+                for metric_key, metric_name, descriptions in guest_metrics:
+                    st.markdown('<div class="score-container">', unsafe_allow_html=True)
+                    score_col, details_col = st.columns([1, 3])
+                    
+                    with score_col:
+                        score = evaluation_data["category_scores"][metric_key]["score"]
+                        score_class = get_score_class(score)
+                        st.markdown(f'<div class="score-box {score_class}">{score}</div>', unsafe_allow_html=True)
+                        st.markdown(f'<div style="text-align: center;">{metric_name}</div>', unsafe_allow_html=True)
+                    
+                    with details_col:
+                        title, evidence, impact = descriptions[score]
+                        st.markdown(f'<div class="score-details"><strong>{metric_name}:</strong> {title}</div>', unsafe_allow_html=True)
+                        st.markdown(f'<div class="metric-evidence">• {evidence}</div>', unsafe_allow_html=True)
+                        st.markdown(f'<div class="metric-impact">• {impact}</div>', unsafe_allow_html=True)
+                    st.markdown('</div>', unsafe_allow_html=True)
 
-                col1, col2 = st.columns(2)
-                
-                with col1:
-                    st.markdown('<div class="section-header">Agent Performance</div>', unsafe_allow_html=True)
-                    
-                    # Response Time Score
-                    st.markdown('<div class="score-container">', unsafe_allow_html=True)
-                    st.markdown('<div class="score-left">', unsafe_allow_html=True)
-                    score = evaluation_data["category_scores"]["response_time"]["score"]
-                    score_class = get_score_class(score)
-                    st.markdown(f'<div class="score-box {score_class}">{score}</div>', unsafe_allow_html=True)
-                    st.markdown('<div style="text-align: center;">Response Time</div>', unsafe_allow_html=True)
-                    st.markdown('</div>', unsafe_allow_html=True)
-                    
-                    st.markdown('<div class="score-right">', unsafe_allow_html=True)
-                    if score == "Exceptional":
-                        st.markdown('<div class="score-details"><strong>Response Speed:</strong> First response within 15 minutes</div>', unsafe_allow_html=True)
-                        st.markdown('<div class="metric-evidence">• Agent responded immediately to guest inquiry</div>', unsafe_allow_html=True)
-                        st.markdown('<div class="metric-impact">• Demonstrates excellent urgency and guest-first mindset</div>', unsafe_allow_html=True)
-                    elif score == "Good":
-                        st.markdown('<div class="score-details"><strong>Response Speed:</strong> First response within 30 minutes</div>', unsafe_allow_html=True)
-                        st.markdown('<div class="metric-evidence">• Quick response time maintaining guest satisfaction</div>', unsafe_allow_html=True)
-                        st.markdown('<div class="metric-impact">• Good balance of speed and thoughtfulness</div>', unsafe_allow_html=True)
-                    elif score == "Satisfactory":
-                        st.markdown('<div class="score-details"><strong>Response Speed:</strong> First response within 1 hour</div>', unsafe_allow_html=True)
-                        st.markdown('<div class="metric-evidence">• Met minimum response time requirements</div>', unsafe_allow_html=True)
-                        st.markdown('<div class="metric-impact">• Room for improvement in response speed</div>', unsafe_allow_html=True)
-                    elif score == "Needs Improvement":
-                        st.markdown('<div class="score-details"><strong>Response Speed:</strong> First response within 4 hours</div>', unsafe_allow_html=True)
-                        st.markdown('<div class="metric-evidence">• Delayed response affecting guest experience</div>', unsafe_allow_html=True)
-                        st.markdown('<div class="metric-impact">• May lead to guest frustration and reduced satisfaction</div>', unsafe_allow_html=True)
-                    else:
-                        st.markdown('<div class="score-details"><strong>Response Speed:</strong> First response over 4 hours</div>', unsafe_allow_html=True)
-                        st.markdown('<div class="metric-evidence">• Severely delayed response time</div>', unsafe_allow_html=True)
-                        st.markdown('<div class="metric-impact">• Significant negative impact on guest experience</div>', unsafe_allow_html=True)
-                    st.markdown('</div></div>', unsafe_allow_html=True)
-                    
-                    # Communication Quality Score
-                    st.markdown('<div class="score-container">', unsafe_allow_html=True)
-                    st.markdown('<div class="score-left">', unsafe_allow_html=True)
-                    score = evaluation_data["category_scores"]["communication_quality"]["score"]
-                    score_class = get_score_class(score)
-                    st.markdown(f'<div class="score-box {score_class}">{score}</div>', unsafe_allow_html=True)
-                    st.markdown('<div style="text-align: center;">Communication</div>', unsafe_allow_html=True)
-                    st.markdown('</div>', unsafe_allow_html=True)
-                    
-                    st.markdown('<div class="score-right">', unsafe_allow_html=True)
-                    if score == "Exceptional":
-                        st.markdown('<div class="score-details"><strong>Communication Quality:</strong> Outstanding personalization and clarity</div>', unsafe_allow_html=True)
-                        st.markdown('<div class="metric-evidence">• Highly empathetic and professional tone</div>', unsafe_allow_html=True)
-                        st.markdown('<div class="metric-impact">• Created a superior guest communication experience</div>', unsafe_allow_html=True)
-                    elif score == "Good":
-                        st.markdown('<div class="score-details"><strong>Communication Quality:</strong> Clear and professional</div>', unsafe_allow_html=True)
-                        st.markdown('<div class="metric-evidence">• Well-structured responses with good personalization</div>', unsafe_allow_html=True)
-                        st.markdown('<div class="metric-impact">• Effective and appropriate communication style</div>', unsafe_allow_html=True)
-                    elif score == "Satisfactory":
-                        st.markdown('<div class="score-details"><strong>Communication Quality:</strong> Clear but generic</div>', unsafe_allow_html=True)
-                        st.markdown('<div class="metric-evidence">• Professional but lacks personalization</div>', unsafe_allow_html=True)
-                        st.markdown('<div class="metric-impact">• Basic communication needs met</div>', unsafe_allow_html=True)
-                    elif score == "Needs Improvement":
-                        st.markdown('<div class="score-details"><strong>Communication Quality:</strong> Communication issues present</div>', unsafe_allow_html=True)
-                        st.markdown('<div class="metric-evidence">• Generic responses lacking clarity</div>', unsafe_allow_html=True)
-                        st.markdown('<div class="metric-impact">• May cause guest confusion or frustration</div>', unsafe_allow_html=True)
-                    else:
-                        st.markdown('<div class="score-details"><strong>Communication Quality:</strong> Significant issues</div>', unsafe_allow_html=True)
-                        st.markdown('<div class="metric-evidence">• Unclear or inappropriate communication</div>', unsafe_allow_html=True)
-                        st.markdown('<div class="metric-impact">• Severely impacts guest understanding</div>', unsafe_allow_html=True)
-                    st.markdown('</div></div>', unsafe_allow_html=True)
-                    
-                    # Process Adherence Score
-                    st.markdown('<div class="score-container">', unsafe_allow_html=True)
-                    st.markdown('<div class="score-left">', unsafe_allow_html=True)
-                    score = evaluation_data["category_scores"]["process_adherence"]["score"]
-                    score_class = get_score_class(score)
-                    st.markdown(f'<div class="score-box {score_class}">{score}</div>', unsafe_allow_html=True)
-                    st.markdown('<div style="text-align: center;">Process Adherence</div>', unsafe_allow_html=True)
-                    st.markdown('</div>', unsafe_allow_html=True)
-                    
-                    st.markdown('<div class="score-right">', unsafe_allow_html=True)
-                    if score == "Exceptional":
-                        st.markdown('<div class="score-details"><strong>Process Quality:</strong> Perfect protocol adherence</div>', unsafe_allow_html=True)
-                        st.markdown('<div class="metric-evidence">• Exemplary documentation and process following</div>', unsafe_allow_html=True)
-                        st.markdown('<div class="metric-impact">• Sets standard for operational excellence</div>', unsafe_allow_html=True)
-                    elif score == "Good":
-                        st.markdown('<div class="score-details"><strong>Process Quality:</strong> Strong protocol adherence</div>', unsafe_allow_html=True)
-                        st.markdown('<div class="metric-evidence">• Good documentation with minor gaps</div>', unsafe_allow_html=True)
-                        st.markdown('<div class="metric-impact">• Processes followed effectively</div>', unsafe_allow_html=True)
-                    elif score == "Satisfactory":
-                        st.markdown('<div class="score-details"><strong>Process Quality:</strong> Basic protocol adherence</div>', unsafe_allow_html=True)
-                        st.markdown('<div class="metric-evidence">• Key processes followed with some gaps</div>', unsafe_allow_html=True)
-                        st.markdown('<div class="metric-impact">• Room for process improvement</div>', unsafe_allow_html=True)
-                    elif score == "Needs Improvement":
-                        st.markdown('<div class="score-details"><strong>Process Quality:</strong> Process gaps present</div>', unsafe_allow_html=True)
-                        st.markdown('<div class="metric-evidence">• Multiple procedural steps missed</div>', unsafe_allow_html=True)
-                        st.markdown('<div class="metric-impact">• Inconsistent protocol adherence</div>', unsafe_allow_html=True)
-                    else:
-                        st.markdown('<div class="score-details"><strong>Process Quality:</strong> Major process failures</div>', unsafe_allow_html=True)
-                        st.markdown('<div class="metric-evidence">• Critical procedures ignored</div>', unsafe_allow_html=True)
-                        st.markdown('<div class="metric-impact">• Severe operational deficiencies</div>', unsafe_allow_html=True)
-                    st.markdown('</div></div>', unsafe_allow_html=True)
-                    
-                    st.markdown('<div class="section-header">Guest Experience</div>', unsafe_allow_html=True)
-                    
-                    # Issue Resolution Score
-                    st.markdown('<div class="score-container">', unsafe_allow_html=True)
-                    st.markdown('<div class="score-left">', unsafe_allow_html=True)
-                    score = evaluation_data["category_scores"]["issue_resolution"]["score"]
-                    score_class = get_score_class(score)
-                    st.markdown(f'<div class="score-box {score_class}">{score}</div>', unsafe_allow_html=True)
-                    st.markdown('<div style="text-align: center;">Issue Resolution</div>', unsafe_allow_html=True)
-                    st.markdown('</div>', unsafe_allow_html=True)
-                    
-                    st.markdown('<div class="score-right">', unsafe_allow_html=True)
-                    if score == "Exceptional":
-                        st.markdown('<div class="score-details"><strong>Resolution Quality:</strong> Outstanding resolution</div>', unsafe_allow_html=True)
-                        st.markdown('<div class="metric-evidence">• Complete resolution with added value</div>', unsafe_allow_html=True)
-                        st.markdown('<div class="metric-impact">• Exceeded guest expectations</div>', unsafe_allow_html=True)
-                    elif score == "Good":
-                        st.markdown('<div class="score-details"><strong>Resolution Quality:</strong> Effective resolution</div>', unsafe_allow_html=True)
-                        st.markdown('<div class="metric-evidence">• Clear solution and explanation provided</div>', unsafe_allow_html=True)
-                        st.markdown('<div class="metric-impact">• Guest needs fully addressed</div>', unsafe_allow_html=True)
-                    elif score == "Satisfactory":
-                        st.markdown('<div class="score-details"><strong>Resolution Quality:</strong> Basic resolution</div>', unsafe_allow_html=True)
-                        st.markdown('<div class="metric-evidence">• Main issues addressed with gaps</div>', unsafe_allow_html=True)
-                        st.markdown('<div class="metric-impact">• Minimum resolution standards met</div>', unsafe_allow_html=True)
-                    elif score == "Needs Improvement":
-                        st.markdown('<div class="score-details"><strong>Resolution Quality:</strong> Incomplete resolution</div>', unsafe_allow_html=True)
-                        st.markdown('<div class="metric-evidence">• Significant gaps in resolution</div>', unsafe_allow_html=True)
-                        st.markdown('<div class="metric-impact">• Guest needs partially unmet</div>', unsafe_allow_html=True)
-                    else:
-                        st.markdown('<div class="score-details"><strong>Resolution Quality:</strong> Failed resolution</div>', unsafe_allow_html=True)
-                        st.markdown('<div class="metric-evidence">• Issue remains unresolved</div>', unsafe_allow_html=True)
-                        st.markdown('<div class="metric-impact">• Critical failure in guest service</div>', unsafe_allow_html=True)
-                    st.markdown('</div></div>', unsafe_allow_html=True)
-                    
-                    # Overall Guest Experience Score
-                    st.markdown('<div class="score-container">', unsafe_allow_html=True)
-                    st.markdown('<div class="score-left">', unsafe_allow_html=True)
-                    score = evaluation_data["category_scores"]["guest_experience"]["score"]
-                    score_class = get_score_class(score)
-                    st.markdown(f'<div class="score-box {score_class}">{score}</div>', unsafe_allow_html=True)
-                    st.markdown('<div style="text-align: center;">Guest Experience</div>', unsafe_allow_html=True)
-                    st.markdown('</div>', unsafe_allow_html=True)
-                    
-                    st.markdown('<div class="score-right">', unsafe_allow_html=True)
-                    if score == "Exceptional":
-                        st.markdown('<div class="score-details"><strong>Guest Satisfaction:</strong> Outstanding experience</div>', unsafe_allow_html=True)
-                        st.markdown('<div class="metric-evidence">• Guest likely delighted and impressed</div>', unsafe_allow_html=True)
-                        st.markdown('<div class="metric-impact">• Created memorable positive experience</div>', unsafe_allow_html=True)
-                    elif score == "Good":
-                        st.markdown('<div class="score-details"><strong>Guest Satisfaction:</strong> Positive experience</div>', unsafe_allow_html=True)
-                        st.markdown('<div class="metric-evidence">• Guest likely satisfied with interaction</div>', unsafe_allow_html=True)
-                        st.markdown('<div class="metric-impact">• Met guest expectations well</div>', unsafe_allow_html=True)
-                    elif score == "Satisfactory":
-                        st.markdown('<div class="score-details"><strong>Guest Satisfaction:</strong> Adequate experience</div>', unsafe_allow_html=True)
-                        st.markdown('<div class="metric-evidence">• Basic needs met with average effort</div>', unsafe_allow_html=True)
-                        st.markdown('<div class="metric-impact">• Room for experience enhancement</div>', unsafe_allow_html=True)
-                    elif score == "Needs Improvement":
-                        st.markdown('<div class="score-details"><strong>Guest Satisfaction:</strong> Subpar experience</div>', unsafe_allow_html=True)
-                        st.markdown('<div class="metric-evidence">• Signs of guest frustration present</div>', unsafe_allow_html=True)
-                        st.markdown('<div class="metric-impact">• Failed to meet guest expectations</div>', unsafe_allow_html=True)
-                    else:
-                        st.markdown('<div class="score-details"><strong>Guest Satisfaction:</strong> Poor experience</div>', unsafe_allow_html=True)
-                        st.markdown('<div class="metric-evidence">• Clear guest dissatisfaction</div>', unsafe_allow_html=True)
-                        st.markdown('<div class="metric-impact">• Significant negative experience</div>', unsafe_allow_html=True)
-                    st.markdown('</div></div>', unsafe_allow_html=True)
+                # Bot Performance section
+                st.markdown('<div class="section-header">Bot Performance</div>', unsafe_allow_html=True)
+                st.write(evaluation_data["bot_evaluation"])
+                for i, issue in enumerate(evaluation_data["bot_evaluation_details"]):
+                    st.markdown(f'<div class="key-issue">{i+1}. {issue}</div>', unsafe_allow_html=True)
 
-                with col2:
-                    # Bot Performance section (unchanged)
-                    st.markdown('<div class="section-header">Bot Performance</div>', unsafe_allow_html=True)
-                    st.write(evaluation_data["bot_evaluation"])
-                    
-                    for i, issue in enumerate(evaluation_data["bot_evaluation_details"]):
-                        st.markdown(f'<div class="key-issue">{i+1}. {issue}</div>', unsafe_allow_html=True)
-
-                # Key Issues section at the bottom
+                # Key Issues section
                 st.markdown('<div class="section-header">Key Issues</div>', unsafe_allow_html=True)
                 for i, issue in enumerate(evaluation_data["key_issues"]):
                     st.markdown(f'<div class="key-issue">{i+1}. {issue}</div>', unsafe_allow_html=True)
