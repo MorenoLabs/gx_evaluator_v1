@@ -13,27 +13,32 @@ BASE_URL = os.getenv("BASE_URL")
 
 client = OpenAI(api_key=OPENAI_API_KEY)
 
-def evaluate_ticket():
+def evaluate_ticket(summary):
     with open("ticket_audit_full.json", "r") as file:
         ticket_event_log = json.load(file)
         
-    # with open("support_ticket.md", "r") as file:
-    #     support_ticket_log = file.read()
-
+    with open("ticket_summary.md", "r") as file:
+         support_ticket_log = file.read()
+         
+    with open("rules.md", "r") as file:
+            rules = file.read()
     with open("prompt.md", "r") as file:
         prompt = file.read()
 
     response = client.responses.create(
-        model="gpt-4o-mini",
-        temperature=0,
+        model="gpt-4o",
+        temperature=0.7,
         input=[
             {"role": "system", "content": "You are an expert guest service desk ticket evaluator. Analyze the provided ticket event log and generate a comprehensive evaluation according to the specified schema."},
             {"role": "user", "content": f"""
             
-           {prompt}
+            Scoring rules and critera:
+            {rules}
+            
+            {prompt}
             
             Do not use guest names or agent names in your response. Our automated system is called Emma. Do not use the term customer.
-            Here is the guest service ticket event log to evaluate: {ticket_event_log}"""}
+            Here is the guest service ticket summary to evaluate. Pay attention to internal comments as well for your output. Make sure you verify if the bot assigned guest intent was exact and correct: {summary}"""}
         ],
         text={
             "format": {
@@ -111,8 +116,8 @@ def evaluate_ticket():
                                 "response_time": {
                                     "type": "object",
                                     "properties": {
-                                        "score": {"type": "integer", "description": "consider agent and bot response time for the score"},
-                                        "max": {"type": "integer"}
+                                        "score": {"type": "string", "enum": ["A+", "A", "A-", "B+", "B", "B-", "C+", "C", "C-", "D+", "D", "D-", "F"], "description": "consider response time from guest perspective"},
+                                        "max": {"type": "string", "enum": ["A+"], "description": "maximum possible grade"}
                                     },
                                     "required": ["score", "max"],
                                     "additionalProperties": False
@@ -120,8 +125,8 @@ def evaluate_ticket():
                                 "communication_quality": {
                                     "type": "object",
                                     "properties": {
-                                        "score": {"type": "integer"},
-                                        "max": {"type": "integer"}
+                                        "score": {"type": "string", "enum": ["A+", "A", "A-", "B+", "B", "B-", "C+", "C", "C-", "D+", "D", "D-", "F"]},
+                                        "max": {"type": "string", "enum": ["A+"], "description": "maximum possible grade"}
                                     },
                                     "required": ["score", "max"],
                                     "additionalProperties": False
@@ -129,8 +134,8 @@ def evaluate_ticket():
                                 "issue_resolution": {
                                     "type": "object",
                                     "properties": {
-                                        "score": {"type": "integer"},
-                                        "max": {"type": "integer"}
+                                        "score": {"type": "string", "enum": ["A+", "A", "A-", "B+", "B", "B-", "C+", "C", "C-", "D+", "D", "D-", "F"]},
+                                        "max": {"type": "string", "enum": ["A+"], "description": "maximum possible grade"}
                                     },
                                     "required": ["score", "max"],
                                     "additionalProperties": False
@@ -138,8 +143,8 @@ def evaluate_ticket():
                                 "guest_experience": {
                                     "type": "object",
                                     "properties": {
-                                        "score": {"type": "integer"},
-                                        "max": {"type": "integer"}
+                                        "score": {"type": "string", "enum": ["A+", "A", "A-", "B+", "B", "B-", "C+", "C", "C-", "D+", "D", "D-", "F"]},
+                                        "max": {"type": "string", "enum": ["A+"], "description": "maximum possible grade"}
                                     },
                                     "required": ["score", "max"],
                                     "additionalProperties": False
@@ -147,8 +152,8 @@ def evaluate_ticket():
                                 "process_adherence": {
                                     "type": "object",
                                     "properties": {
-                                        "score": {"type": "integer"},
-                                        "max": {"type": "integer"}
+                                        "score": {"type": "string", "enum": ["A+", "A", "A-", "B+", "B", "B-", "C+", "C", "C-", "D+", "D", "D-", "F"]},
+                                        "max": {"type": "string", "enum": ["A+"], "description": "maximum possible grade"}
                                     },
                                     "required": ["score", "max"],
                                     "additionalProperties": False
@@ -160,7 +165,7 @@ def evaluate_ticket():
                         "key_issues": {
                             "type": "array",
                             "items": {"type": "string"},
-                            "description": "List of very detailed descriptions of major issues identified"
+                            "description": "List of very detailed descriptions of major issues identified in the ticket. Each item should be a specific example from the ticket event log that illustrates a strength or weakness in the handling of the ticket. This should include any major issues that were not addressed or resolved, as well as any areas where the bot or agent could have improved their performance. Do not only focus on bot issues as we are aware of the limitations of the bot. Do not use guest names or agent names."
                         },
                         "recommendations": {
                             "type": "array",

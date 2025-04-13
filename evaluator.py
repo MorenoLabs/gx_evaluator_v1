@@ -45,9 +45,8 @@ authenticator = stauth.Authenticate(
 
 
 #import all functions from the eval_functions.py file
-from eval_functions import (
-    create_detailed_ticket_audit,
-    generate_audit_summary
+from eval_functions_v2 import (
+    events_to_markdown
 )
 
 from llm_eval import (
@@ -382,13 +381,16 @@ else:
             events_data = raw['events']
             with open("events_data.json", 'w', encoding='utf-8') as f:
                 json.dump(events_data, f, indent=2, ensure_ascii=False)
-            audit_result = create_detailed_ticket_audit(raw['events'])
-            summary = generate_audit_summary(audit_result)
+            audit_result = events_to_markdown(events_data)
+            
+            
+            with open("ticket_summary.md", 'w', encoding='utf-8') as f:
+                f.write(audit_result)
             
             # Save the full audit data
             with open("ticket_audit_full.json", 'w', encoding='utf-8') as f:
                 json.dump(audit_result, f, indent=2, ensure_ascii=False)
-            evaluation_data = evaluate_ticket()
+            evaluation_data = evaluate_ticket(audit_result)
             
             st.session_state.evaluation_data = evaluation_data
         
@@ -473,8 +475,8 @@ else:
                     with cols[i]:
                         score = evaluation_data["category_scores"][category_key]["score"]
                         max_score = evaluation_data["category_scores"][category_key]["max"]
-                        score_class = get_score_class((score / max_score) * 100)
-                        st.markdown(f'<div class="score-box {score_class}">{score}/{max_score}</div>', unsafe_allow_html=True)
+                        score_class = get_score_class((score))
+                        st.markdown(f'<div class="score-box {score_class}">{score}</div>', unsafe_allow_html=True)
                         st.markdown(f'<div style="text-align: center;">{category_name}</div>', unsafe_allow_html=True)
                 
                 # Key issues
@@ -504,7 +506,7 @@ else:
                 for i, issue in enumerate(evaluation_data["bot_evaluation_details"]):
                     st.markdown(f'<div class="key-issue">{i+1}. {issue}</div>', unsafe_allow_html=True)
             with tab6:
-                st.markdown(summary)
+                st.markdown(audit_result)
         else:
             st.error(f"No evaluation data found for ticket ID: {ticket_id}")
             st.write("Please check the ticket ID and try again, or select a sample ticket from the sidebar.")
