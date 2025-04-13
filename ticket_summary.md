@@ -1,90 +1,176 @@
-# Conversation: 
+# Conversation: Custom conversation with Anna Pavlenko
 
 ## Customer & Conversation Details
 
-- **Customer Contact**: +48505795802
-- **Conversation Created**: 2025-04-11 13:28:55
+- **Guest Name**: Anna Pavlenko
+- **Customer Contact**: +79910255740
+- **Reservation ID**: IGBNCMGY-1
+- **Property**: Colmena
+- **Stay Period**: April 3, 2025 to April 5, 2025
+- **Conversation Created**: 2025-04-05 11:13:01
 - **Status**: archived (resolved)
-- **Tags**: B:Luggage Locker Times, B:Luggage Locker Instructions, B:Luggage Lockers, B:Property, B:Talk to human, B:Uncategorised, B:General Questions, Compl. Property, URGENT, Move to Tier 2
-- **Detected Intent**: Talk to human
+- **Tags**: Requests: General, Move to Tier 1
+- **Detected Intent**: Luggage Lockers not working
 
 ## Conversation Processing
 
-- **First Response Time**: 1 minute 16 seconds
-- **Total Resolution Time**: 1 hour 6 minutes 11 seconds
-- **Routing Path**: Tier 2 - WhatsApp
-- **Assigned To**: Annarita
-- **Assignment Method**: Assign Urgent Tier 2 new (rule)
+- **First Response Time**: 36 seconds
+- **Total Resolution Time**: 1 hour 43 minutes 32 seconds
+- **Routing Path**: Tier 1 - WhatsApp
+- **Assigned To**: Rafaela Carneiro
+- **Assignment Method**: Auto-Assign Whatsapp Tier 2 Spanish (rule)
 
 ## System Intelligence
 
-- **Bot Interaction Duration**: 1 minute 16 seconds
+- **Bot Interaction Duration**: 36 seconds
 - **Early Bird Detection (EBD)**: yes
 - **LLM Assisted**: yes
-- **Escalation Reason**: Unknown
+- **Escalation Reason**: Customer requested agent
 - **Escalation Occurred**: yes
 
 ## Conversation History
 
-### 2025-04-11 13:28:55 - Bot (Bot)
+### 2025-04-05 11:13:01 - Bot (Bot)
 
-11/04/2025, 13:28:02 - (client): Hi, I would like to leave my bags at Luggage Locket but it’s closed. PIN code Works well but it seems like someone closed the door with a key
-11/04/2025, 13:28:02 - (bot):
+05/04/2025, 11:04:37 - (client): ¿Puedo dejar mi maleta hasta las 12-10?
+05/04/2025, 11:04:37 - (bot):
 
-I am happy to answer this. The following arrangement applies to all Numa properties, that offer on-site luggage storage:
+Si el alojamiento dispone de consigna, podrás utilizarla tanto el día de llegada como el de salida.
 
-11/04/2025, 13:28:02 - (bot):
-The building entry is accessible from 7:00 AM on your arrival day until 8:00 PM on your departure day to ensure seamless storage and retrieval of your belongings.
+05/04/2025, 11:04:37 - (bot):
+Tu pin estará activo para la entrada principal desde las 7:00 am del día de tu llegada hasta las 8:00 pm del día de tu salida.
 
-11/04/2025, 13:28:02 - (bot):
-If you wish to check if the property you booked has on-site luggage storage, please click the button below.
+05/04/2025, 11:04:37 - (bot):
+Si necesitas instrucciones sobre cómo utilizar las taquillas o tienes problemas con ellas, selecciona uno de los botones que aparecen a continuación:
 
-11/04/2025, 13:28:02 - (bot):>>>> On-site storage
-11/04/2025, 13:28:41 - (client): Can I talk to a real person?
-11/04/2025, 13:28:41 - (bot):
+05/04/2025, 11:04:37 - (bot):>>>> Instrucciones
+05/04/2025, 11:04:37 - (bot):>>>> No funcionan
+05/04/2025, 11:04:37 - (bot):>>>> ¿Hay consigna de equipajes?
+05/04/2025, 11:05:39 - (client): >>>>> Instrucciones
+05/04/2025, 11:05:39 - (bot):
+Déjame ayudarte con las instrucciones para las taquillas de equipaje. Pero primero necesito verificar algunas cosas.
 
-I understood you would like to talk to one of my colleagues.
-Can you please confirm you wish to be transferred?
+05/04/2025, 11:05:39 - (bot):
+En Colmena no ofrecemos consigna de equipaje.
 
-11/04/2025, 13:28:41 - (bot):>>>> Yes, transfer me.
-11/04/2025, 13:28:41 - (bot):>>>> No, don't transfer.
+05/04/2025, 11:05:39 - (bot):
+Pero no te preocupes, tenemos una opción alternativa para ti. Simplemente haz clic en el botón de abajo para obtener más información.
 
-### 2025-04-11 13:28:57 - Unknown (Internal Comment)
+05/04/2025, 11:05:39 - (bot):>>>> Alternativas
+05/04/2025, 11:06:31 - (client): >>>>> Alternativas
+05/04/2025, 11:06:31 - (bot):
+Sugerimos "Bounce" como opción alternativa para guardar el equipaje.
 
-( | )
+05/04/2025, 11:06:31 - (bot):
+A continuación encontrarás las instrucciones para utilizar su servicio, incluido un enlace a su página web.
 
-### 2025-04-11 13:29:03 - Bot (Bot)
+05/04/2025, 11:06:31 - (bot):>>>> ¿Cómo funciona?
+05/04/2025, 11:07:16 - (client): >>>>> ¿Cómo funciona?
+05/04/2025, 11:07:16 - (bot):
+Abre la página web
 
-2025/04/11, 13:28:02 - (client) : Hi, I would like to leave my bags at Luggage Locket but it’s closed. PIN code Works well but it seems like someone closed the door with a key
-2025/04/11, 13:28:02 - (bot) : I am happy to answer this. The following arrangement applies to all Numa properties, that offer on-site luggage storage:
-2025/04/11, 13:28:02 - (bot) : The building entry is accessible from 7:00 AM on your arrival day until 8:00 PM on your departure day to ensure seamless storage and retrieval of your belongings.
-2025/04/11, 13:28:02 - (bot) : If you wish to check if the property you booked has on-site luggage storage, please click the button below.
-2025/04/11, 13:28:02 - (bot) : >>> On-site storage <<<
-2025/04/11, 13:28:41 - (client) : Can I talk to a real person?
-2025/04/11, 13:28:41 - (bot) : I understood you would like to talk to one of my colleagues.
-Can you please confirm you wish to be transferred?
-2025/04/11, 13:28:41 - (bot) : >>> Yes, transfer me. <<<
-2025/04/11, 13:28:41 - (bot) : >>> No, don't transfer. <<<
-2025/04/11, 13:29:01 - (client) : <<< Yes, transfer me. >>>
-2025/04/11, 13:29:01 - (bot) : One moment please.
-2025/04/11, 13:29:01 - (bot) : I will connect you to one of my colleagues. They will be with you within approximately 5 - 10 minutes.
+Selecciona tu localidad
+
+Reserva y paga tu consigna (utiliza el código NUMA10 para un descuento del 10%)
+
+
+05/04/2025, 11:07:16 - (bot):
+Una vez que hayas terminado, recibirás una etiqueta y una confirmación por correo electrónico/WhatsApp.
+
+05/04/2025, 11:07:16 - (bot):>>>> Página web Bounce
+05/04/2025, 11:09:41 - (client): ¿Puedo dejar mi equipaje en la habitación 1 hora más?
+05/04/2025, 11:09:42 - (bot):
+
+Con mucho gusto te daré más información sobre la consigna de equipajes.
+
+05/04/2025, 11:09:42 - (bot):
+¿Qué información buscabas?
+
+05/04/2025, 11:09:42 - (bot):>>>> Lockers en la propiedad
+05/04/2025, 11:09:42 - (bot):>>>> Instrucciones
+05/04/2025, 11:09:42 - (bot):>>>> Opciones Alternativas
+05/04/2025, 11:09:42 - (bot):>>>> Lockers no funcionan
+05/04/2025, 11:11:55 - (client): >>>>> Opciones Alternativas
+05/04/2025, 11:11:55 - (bot):
+Sugerimos "Bounce" como opción alternativa para guardar el equipaje.
+
+05/04/2025, 11:11:55 - (bot):
+A continuación encontrarás las instrucciones para utilizar su servicio, incluido un enlace a su página web.
+
+05/04/2025, 11:11:55 - (bot):>>>> ¿Cómo funciona?
+05/04/2025, 11:12:12 - (client): No
+05/04/2025, 11:12:12 - (bot):
+
+Siento que tengas problemas con las taquillas.
+
+05/04/2025, 11:12:12 - (bot):
+Lamento que estés teniendo problemas con las taquillas.
+
+05/04/2025, 11:12:12 - (bot):
+Por favor, pulsa el botón de abajo para que pueda transferir la conversación a mis compañeros, que estarán encantados de atenderte.
+
+05/04/2025, 11:12:12 - (bot):>>>> 👉 Hablar con un agente
+
+### 2025-04-05 11:13:05 - Unknown (Internal Comment)
+
+[IGBNCMGY-1](https://app.apaleo.com/ES_BC_026/reservations/IGBNCMGY-1/actions) (Barcelona | 3 de abril de 2025)
+
+### 2025-04-05 11:13:18 - Bot (Bot)
+
+2025/04/05, 11:05:39 - (bot) : En Colmena no ofrecemos consigna de equipaje.
+2025/04/05, 11:05:39 - (bot) : Pero no te preocupes, tenemos una opción alternativa para ti. Simplemente haz clic en el botón de abajo para obtener más información.
+2025/04/05, 11:05:39 - (bot) : >>> Alternativas <<<
+2025/04/05, 11:06:31 - (client) : <<< Alternativas >>>
+2025/04/05, 11:06:31 - (bot) : Sugerimos "Bounce" como opción alternativa para guardar el equipaje.
+2025/04/05, 11:06:31 - (bot) : A continuación encontrarás las instrucciones para utilizar su servicio, incluido un enlace a su página web.
+2025/04/05, 11:06:31 - (bot) : >>> ¿Cómo funciona? <<<
+2025/04/05, 11:07:16 - (client) : <<< ¿Cómo funciona? >>>
+2025/04/05, 11:07:16 - (bot) : 1. Abre la página web
+2. Selecciona tu localidad
+3. Reserva y paga tu consigna (utiliza el código NUMA10 para un descuento del 10%)
+2025/04/05, 11:07:16 - (bot) : Una vez que hayas terminado, recibirás una etiqueta y una confirmación por correo electrónico/WhatsApp.
+2025/04/05, 11:07:16 - (bot) : >>> Página web Bounce <<<
+2025/04/05, 11:09:41 - (client) : ¿Puedo dejar mi equipaje en la habitación 1 hora más?
+2025/04/05, 11:09:42 - (bot) : Con mucho gusto te daré más información sobre la consigna de equipajes.
+2025/04/05, 11:09:42 - (bot) : ¿Qué información buscabas?
+2025/04/05, 11:09:42 - (bot) : >>> Lockers en la propiedad <<<
+2025/04/05, 11:09:42 - (bot) : >>> Instrucciones <<<
+2025/04/05, 11:09:42 - (bot) : >>> Opciones Alternativas <<<
+2025/04/05, 11:09:42 - (bot) : >>> Lockers no funcionan <<<
+2025/04/05, 11:11:55 - (client) : <<< Opciones Alternativas >>>
+2025/04/05, 11:11:55 - (bot) : Sugerimos "Bounce" como opción alternativa para guardar el equipaje.
+2025/04/05, 11:11:55 - (bot) : A continuación encontrarás las instrucciones para utilizar su servicio, incluido un enlace a su página web.
+2025/04/05, 11:11:55 - (bot) : >>> ¿Cómo funciona? <<<
+2025/04/05, 11:12:12 - (client) : No
+2025/04/05, 11:12:12 - (bot) : Siento que tengas problemas con las taquillas.
+2025/04/05, 11:12:12 - (bot) : Lamento que estés teniendo problemas con las taquillas.
+2025/04/05, 11:12:12 - (bot) : Por favor, pulsa el botón de abajo para que pueda transferir la conversación a mis compañeros, que estarán encantados de atenderte.
+2025/04/05, 11:12:12 - (bot) : >>> 👉 Hablar con un agente <<<
+2025/04/05, 11:13:16 - (client) : <<< 👉 Hablar con un agente >>>
+2025/04/05, 11:13:16 - (bot) : Un momento por favor.
+2025/04/05, 11:13:16 - (bot) : Te pondré en contacto con uno de mis compañeros. Te atenderán en aproximadamente 5 - 10 minutos.
 ---conversation transferred from boost.ai VA---
-Luggage Storage Issue:
-Luggage Locket is closed despite PIN working.
+Dejar equipaje:
+¿Puedo dejar mi maleta hasta las 12-10? ¿Puedo dejar mi equipaje en la habitación 1 hora más?
 
-### 2025-04-11 13:29:43 - Customer (Customer)
+### 2025-04-05 11:13:38 - Agent (Agent)
 
-I don’t need it anymore sorry
+Gracias por contactarnos! Su solicitud está ahora con el equipo responsable, y se pondrán en contacto con usted pronto.
 
-### 2025-04-11 13:30:12 - Agent (Agent)
+### 2025-04-05 11:18:23 - Customer (Customer)
 
-Thank you for reaching out! Your request is now with the responsible team, and they’ll be in touch soon!
+Ok
 
-### 2025-04-11 13:34:59 - Annarita (Agent)
+### 2025-04-05 11:32:04 - Customer (Customer)
 
-No problem! If you’ve got any more questions, just reach out!
+Estoy aquí sentada esperando la limpieza y todavía no ha venido nadie
 
-### 2025-04-11 14:35:04 - Unknown (Internal Comment)
+### 2025-04-05 11:56:31 - Rafaela Carneiro (Agent)
+
+Hola, soy Rafaela de Numa.
+Siento el retraso en la respuesta. ¿Estáis esperando al equipo de limpieza?
+
+### 2025-04-05 12:56:32 - Unknown (Internal Comment)
 
 ---conversation terminated by timeout---
 

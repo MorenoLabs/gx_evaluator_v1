@@ -365,7 +365,7 @@ else:
             # Add "Made with love" at the very bottom
         st.markdown("""
         <div style="text-align: center; margin-top: 20px; font-size: 0.8em; color: #6c757d;">
-            Made with ❤️ by <a href="https://www.notion.so/numastays/GX-QA-Ticket-Evaluator-1cda39b9f204805184bfe326a530503d" style="color: #007bff;">Numa GX</a>
+            Made with ❤️ by <a href="https://www.notion.so/numastays/GX-QA-Ticket-Evaluator-1cda39b9f204805184bfe326a530503d" style="color: #007bff;">Numa GX</a> V1.5
         </div>
         """, unsafe_allow_html=True)
                     
