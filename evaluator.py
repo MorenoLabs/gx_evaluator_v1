@@ -12,7 +12,7 @@ import os
 
 # Set page configuration
 st.set_page_config(
-    page_title="Guest Experience Ticket Evaluator",
+    page_title="Guest Experience Ticket Evaluator:",
     page_icon="🎫",
     layout="wide"
 )
